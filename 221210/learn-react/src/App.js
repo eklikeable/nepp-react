@@ -1,5 +1,5 @@
-import Hello from "./components/Hello";
 import "./App.css"; // webpack을 통해서 javaScript가 아닌 파일도 import가 가능
+import TodoInput from "./components/TodoInput";
 
 function App() {
   /* 
@@ -12,17 +12,14 @@ function App() {
     5. class는 className속성으로 할당한다.
     6. 컴포넌트는 무조건 대괄호로 시작한다.
   */
-  const myName = "seok";
-  const wordStyle = {
-    color: "red",
-    backgroundColor: "black",
-  };
+
   return (
     <div>
-      <Hello />
+      {/* <Hello text="seok" active={true} />
       <p style={wordStyle} className="content">
         안녕하세요, {myName}!
-      </p>
+      </p> */}
+      <TodoInput />
     </div>
   );
 }
