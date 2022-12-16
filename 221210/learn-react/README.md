@@ -1,70 +1,32 @@
-# Getting Started with Create React App
+22.12.11
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### 💡"함수형 업데이트"란?
 
-## Available Scripts
+리액트에서 setState를 사용하여 상태를 업데이트 할 경우, 업데이트 된 상태는 즉시 반영되지 않는다.   
+왜냐하면 setState는 비동기적으로 작동하기 때문에, 리렌더링이 된 후에야 비로소 업데이트된 state가 반영된다.
 
-In the project directory, you can run:
+여러번 setState를 만나게 되면 batching(일괄처리)하여 작업을 한다. 매번 호출 순서대로 바로 업데이트 하지 않고   
+인자로 전달된 객체들을 하나로 합친 뒤에 상태를 업데이트 하기 때문이다.
 
-### `npm start`
+\*batching : 전달된 오브젝트들을 하나로 합치는 작업. object composition 이라고도 불린다.   
+객체가 동일한 키를 가지고 있다면 가장 마지막에 전달된 객체의 키값이 덮어쓰여진다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+비동기적으로 작동하는 속성은 여러개의 state를 다룰 때 퍼포먼스 측면에서 유리하다.   
+동기적으로 작동했다면, state1 → state2 이렇게 순차적으로 업데이트가 될 것이기 때문이다.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+(이러한 특성 때문에, update된 state를 바로 반영해야 할 때, 우리는 useEffect를 사용한다.)
 
-### `npm test`
+이를 해결하기 위해 함수형 업데이트(functional update)를 사용할 수 있다.   
+즉, setState에 값을 그대로 전달하는 것이 아니라 함수를 전달하는 것이다.   
+(=> setState를 동기적으로 사용할 수 있게 된다.)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+객체가 아닌 함수형 setState가 호출되면 merge 할 객체가 없기 때문에 호출된 순서대로 함수를 큐에 넣는다.   
+그 후에 큐의 각 함수를 호출하여 함수형 setState의 이전 상태를 전달하여 업데이트 하는 것이다.   
+이 말은, 상태를 업데이트하는 함수를 외부에 선언해놓고 가져다 쓰기만해도 된다는 소리다.
 
-### `npm run build`
+함수형 업데이트는 useCallback과 함께 props로 전달된 함수를 최적화 할 때도 유용하게 쓰인다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+참고 :   
+https://dodokim.medium.com/setstate-%EB%A5%BC-%ED%95%A8%EC%88%98%ED%98%95%EC%9C%BC%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-763402cbc3e5   
+https://www.daleseo.com/react-hooks-use-callback/   
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
