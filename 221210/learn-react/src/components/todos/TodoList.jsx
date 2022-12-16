@@ -1,5 +1,5 @@
 function TodoList({ todos, onRemove, onToggle }) {
-  // 투두 리스트 출력(삭제, 토글)
+  // Todo List 출력용 컴포넌트(삭제, 토글)
 
   return (
     <ul>
@@ -28,15 +28,15 @@ function TodoItem({ todo, onRemove, onToggle }) {
 
   return (
     <li>
+      {/* 이벤트 버블링을 방지하기위해 li대신 span으로 감싸서 onClick을 넣어줌 */}
       <span
         onClick={handleToggle}
-        style={{ textDecoration: done && 'line-through' }}
+        style={{ textDecoration: done && 'line-through' }} // done이 truthy일 때만 취소선 적용
       >
         {text}
       </span>
-      <button onClick={handleRemove}>삭제</button>
+      ({id})<button onClick={handleRemove}>삭제</button>
     </li>
   );
 }
-
 export default TodoList;
