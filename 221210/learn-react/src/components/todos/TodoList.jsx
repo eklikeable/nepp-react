@@ -1,21 +1,22 @@
-function TodoList({ todos, onRemove, onToggle }) {
+import { useContext } from 'react';
+import { deliverOnRemove } from './Todos';
+
+function TodoList({ todos, onToggle }) {
   // Todo List 출력용 컴포넌트(삭제, 토글)
 
   return (
     <ul>
       {todos.map((todo) => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          onRemove={onRemove}
-          onToggle={onToggle}
-        />
+        <TodoItem key={todo.id} todo={todo} onToggle={onToggle} />
       ))}
     </ul>
   );
 }
 
-function TodoItem({ todo, onRemove, onToggle }) {
+function TodoItem({ todo, onToggle }) {
+  // onRemove함수를 TodoList를 거쳐 Props로 받을 필요 없이 전역으로 바로 받아옴
+  const onRemove = useContext(deliverOnRemove);
+
   const { text, id, done } = todo;
 
   const handleRemove = () => {

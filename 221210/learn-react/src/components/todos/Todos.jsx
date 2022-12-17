@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { useCallback } from 'react';
-import { useRef } from 'react';
+import React, { useState, useRef, useCallback, createContext } from 'react';
 import TodoInput from './TodoInput';
 import TodoList from './TodoList';
+
+export const deliverOnRemove = createContext(null);
 
 //초기값
 const initialState = [
@@ -45,10 +45,12 @@ function Todos() {
   }, []);
 
   return (
-    <div>
-      <TodoInput onCreate={onCreate} />
-      <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle} />
-    </div>
+    <deliverOnRemove.Provider value={onRemove}>
+      <div>
+        <TodoInput onCreate={onCreate} />
+        <TodoList todos={todos} onToggle={onToggle} />
+      </div>
+    </deliverOnRemove.Provider>
   );
 }
 

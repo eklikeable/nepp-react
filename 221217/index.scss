@@ -1,0 +1,32 @@
+// VSC밑에 상태바에서 Watch SCSS 를 클릭하여 자동으로 css를 변환하고 live server에서 볼 수 있음
+
+.container {
+  display: flex;
+  flex-direction: row; /* 나열방향 (주축) */
+  justify-content: flex-start; /* 주축 방향에 대한 나열 방법 */
+  align-items: center; /* 교차축에 대한 나열 방법 */
+
+  width: 500px;
+  height: 300px;
+  border: 3px solid black;
+
+  .box {
+    // flex-basis: 100px; /* 주축에 대한 기본 너비 => grow, shrink의 기준값이 되기 때문에 중요하다*/
+    // flex-grow: 1; /* 남는 여백을 가져가는 비율 */
+    // flex-shrink: 1; /* 공간이 부족할 때 줄어드는 비율 */
+    height: 100px;
+
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    border: 1px solid black;
+
+    &:nth-child(1) {
+      // flex: 1;
+    }
+
+    & + & {
+      margin-left: 10px;
+    }
+  }
+}
