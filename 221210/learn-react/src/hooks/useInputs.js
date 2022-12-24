@@ -23,12 +23,14 @@ function reducer(state, action) {
 }
  */
 
-//action : dispatch에 전달되는 객체
+// action : dispatch에 전달되는 객체
+// ✨ 리듀서 함수의 return값이 곧 최신 상태값이 된다.
 function reducer(state, action) {
   switch (action.type) {
     case 'CHANGE_INPUT':
+      // 초기값이 객체이기 때문에 return값도 똑같이 객체로
       return {
-        ...state,
+        ...state, // 먼저 기존의 상태값을 그대로 복사
         inputs: {
           ...state.inputs,
           [action.name]: action.value,
@@ -39,7 +41,7 @@ function reducer(state, action) {
   }
 }
 function useInputs(initialState) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState); // 두번째 인자로 초기값 지정
   return [state, dispatch];
 }
 

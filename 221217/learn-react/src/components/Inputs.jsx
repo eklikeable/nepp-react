@@ -7,25 +7,21 @@ import useInputs from './hooks/useInputs';
 // ✨ 여러가지 상태를 한꺼번에 관리 할 수 있다(키값 추가가 용이함)
 // ✨ 상태관리 관련 함수들을 컴포넌트 밖으로 뺄 수 있다.
 
-// 여러개의 상태를 한번에 관리 할 수 있다는 걸 보여주기 위해 아래와 같이 작성하지만
-// 실제로는 용도별로 각각 관리함
-const initialState = {
-  inputs: {
-    email: '',
-    name: '',
-  },
-  counter: 0,
-};
-
 function Inputs() {
   // useReducer(리듀서함수) : [상태값, 디스패치함수] 반환
   // dispatch : 액션을 발생시키는 함수
-  const [state, dispatch] = useInputs(initialState); // 두번째 인자로 초기값 지정
-  const { inputs, counter } = state;
+  const [state, dispatch] = useInputs({
+    email: '',
+    name: '',
+  }); // 초기값 전달
+
+  const { inputs } = state;
   const { name, email } = inputs; // 변수 껍질 벗기기..
 
   const handleInputs = (e) => {
     const { name, value } = e.target;
+    // dispatch 함수의 type, name, value등이 action 객체로 전달된다
+    // 이걸 가지고 reducer함수에서 분기처리도하고, 상태관리도 한다
     dispatch({ type: 'CHANGE_INPUT', name, value });
   };
 
@@ -44,7 +40,6 @@ function Inputs() {
       <input type='text' onChange={handleInputs} name='name' />
       <input type='text' onChange={handleInputs} name='email' />
       <div>
-        <p>{counter}</p>
         <button onClick={handleCounter}>+1</button>
       </div>
     </div>

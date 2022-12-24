@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Styled from './components/Styled';
+import Todos from './components/todoReducer/Todos';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<Styled />);
+root.render(<Todos />);

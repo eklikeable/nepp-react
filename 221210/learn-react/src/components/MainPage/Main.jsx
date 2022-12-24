@@ -18,12 +18,13 @@ function Main() {
   return (
     // DarkModeContext가 제공하는 context를 사용하고자 하는 children들을 모두 감싸준다
     // 아래와같이 Context Provider를 중첩해서 사용 가능
+    // context의 현재 값은 트리 안에서 이 Hook을 호출하는 컴포넌트에 가장 가까이에 있는 Provider의 value prop에 의해 결정된다.
     <DarkModeContext.Provider value={darkMode}>
       <SetDarkModeContext.Provider value={onChangeMode}>
         <div
           style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}
         >
-          <Header />
+          <Header /> {/* 개별 컴포넌트에 props를 직접 넘겨줄 필요가 없다.*/}
           <Content />
         </div>
       </SetDarkModeContext.Provider>

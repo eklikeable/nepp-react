@@ -65,8 +65,14 @@ const StatusBar = styled.div`
     display: block;
     transform-origin: left; // 왼쪽을 기준으로 transform이 시작되도록 하기
 
-    /* width: ${({ progress }) => progress}%;
-    이 코드는 성능개선을 위해 아래와 같이 transform : scaleX로 대체할 수 있다
+    /*
+      reflow 와 repaint
+      reflow가 일어나면 repaint도 일어나고, 레이아웃이 전부 바뀌어야 하기 때문에 성능저하가 생긴다
+      예를들어, background color를 바꾸는것은 reflow가 일어나지 않지만
+      width를 변경하는 것은 다른 요소가 옆으로 밀려나야 하는지 계산해야 하기 때문에 성능이 더 든다.
+
+      width: ${({ progress }) => progress}%;
+      이 코드를 성능개선을 위해 아래와 같이 transform : scaleX로 대체할 수 있다
     */
     ${({ progress }) => css`
       transform: scaleX(${progress}%);

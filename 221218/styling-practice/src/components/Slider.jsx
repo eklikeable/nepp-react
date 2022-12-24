@@ -62,8 +62,6 @@ const Item = styled.li`
   ${({ bgColor }) => css`
     background-color: ${bgColor};
   `}
-
-  transform: translateX();
 `;
 
 const BtnSlide = styled.div`

@@ -4,13 +4,7 @@ import { useTodoDispatch } from '../../contexts/todos';
 
 function TodoCreate() {
   const nextId = useRef(4);
-
   const dispatch = useTodoDispatch();
-
-  // const [inputs, inputsDispatch] = useInputs({
-  //   text: '',
-  // });
-
   const [inputs, onChange, reset] = useInputs02({ text: '' });
 
   const onCreate = () => {
@@ -21,10 +15,12 @@ function TodoCreate() {
     reset();
   };
 
-  // const handleInput = (e) => {
-  //   const { name, value } = e.target;
-  //   dispatch({ type: 'CHANGE_INPUT', name, value });
-  // };
+  /*
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    dispatch({ type: 'CHANGE_INPUT', name, value });
+  };
+*/
 
   return (
     <form

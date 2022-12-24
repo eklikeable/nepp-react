@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { DarkModeContext, SetDarkModeContext } from './Main';
 
 function Content() {
-  const darkMode = useContext(DarkModeContext);
+  const darkMode = useContext(DarkModeContext); // CreateContext로 생성한 Context객체를 useContext의 인자로 받아서 사용
   const onChangeMode = useContext(SetDarkModeContext);
 
   return (

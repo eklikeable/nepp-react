@@ -20,7 +20,7 @@ const initialState = {
 function Inputs() {
   // useReducer(리듀서함수) : [상태값, 디스패치함수] 반환
   // dispatch : 액션을 발생시키는 함수
-  const [state, dispatch] = useInputs(initialState); // 두번째 인자로 초기값 지정
+  const [state, dispatch] = useInputs(initialState);
   const { inputs, counter } = state;
   const { name, email } = inputs; // 변수 껍질 벗기기..
 
