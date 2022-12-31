@@ -148,3 +148,37 @@ function Hello() {
   );
 }
 ```
+
+<br/>
+
+## 22.12.31(토) 수업 내용
+
+<br/>
+
+**API** : Aplication Programming Interface
+어플리케이션 간의 통신 방법
+
+**REST API** : Representational State Transfer API의 약자. 자원의 상태를 자원에 대한 표현으로 주고 받는 모든 것
+자원(Resource), 메서드, 표현(Representation)
+
+ex) Get https://www.api-com/todos  
+ex) Get https://www.api-com/todos/1  
+요청값만 가지고 어떤 데이터를 요청하는지 예측 가능  
+[todos]부분은 보통 명사로 작성
+
+**메서드의 종류** : GET, POST, PUT(전체), PATCH(일부분), DELETE
+
+---
+
+**json-server** : json 파일에 저장된 정보를 주고받는 가상의 REST API를 만들어 주는 라이브러리.
+
+```
+/* 설치 */
+npm install -g json-server
+
+/* json server 실행 */
+json-server 파일경로 --port 포트번호
+json-server ./db.json --port 4000
+```
+
+화면에 데이터를 띄워보고 싶은데, 백앤드가 아직 준비가 안됐을 때 사용
