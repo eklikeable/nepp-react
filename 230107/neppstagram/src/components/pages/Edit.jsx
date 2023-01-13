@@ -1,9 +1,15 @@
 import styled from 'styled-components';
 import { RxPlus } from 'react-icons/rx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../common/button';
+import { convertUrl, getPostById, postPost } from '../../api/admin';
+import { useParams } from 'react-router-dom';
 
 function Edit() {
+  const { id } = useParams();
+
+  const [post, setPost] = useState(null);
+
   const [inputs, setInputs] = useState({
     content: '',
     images: [],
@@ -16,12 +22,12 @@ function Edit() {
       window.alert('사진은 5개 이하로 등록해 주세요');
       return;
     }
+    const { files } = e.target;
+
+    setPreviewUrls([]);
+
     setInputs((inputs) => {
       const prevImages = inputs.images;
-      const { files } = e.target;
-
-      setPreviewUrls([]);
-
       const fileArr = [...prevImages, ...files];
 
       fileArr.forEach((file) => {
@@ -42,18 +48,40 @@ function Edit() {
 
   const handleSubmit = () => {
     const form = new FormData();
+
     form.append('content', inputs.content);
 
     inputs.images.forEach((image) => {
       form.append('images', image);
     });
-    return;
+
+    for (let pair of form.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+
+    postPost(form).then((res) => console.log(res));
   };
+
+  useEffect(() => {
+    if (id) {
+      getPostById(id).then((data) => {
+        setInputs((inputs) => ({ ...inputs, content: data.content }));
+
+        Promise.all(
+          data.img_list.map((img) => {
+            const file = convertUrl(img.url);
+            return file;
+          })
+        ).then((res) => console.log(res));
+      });
+    }
+  }, [id]);
 
   return (
     <Container>
       <Textarea
         placeholder='글을 입력해주세요'
+        value={inputs.content}
         onChange={(e) =>
           setInputs((inputs) => ({ ...inputs, content: e.target.value }))
         }
@@ -62,9 +90,6 @@ function Edit() {
         {previewUrls.map((url, idx) => (
           <Preview url={url} key={idx} />
         ))}
-        <BtnInput htmlFor='postImages'>
-          <RxPlus color='#eee' size={40} />
-        </BtnInput>
         <input
           type='file'
           accept='image/*'
@@ -74,9 +99,10 @@ function Edit() {
           onChange={handleImages}
         />
       </ImagesWrapper>
-      <Button style={{}} onClick={handleSubmit}>
-        등록
-      </Button>
+      <BtnInput htmlFor='postImages'>
+        <RxPlus color='#eee' size={40} />
+      </BtnInput>
+      <Button onClick={handleSubmit}>등록</Button>
     </Container>
   );
 }

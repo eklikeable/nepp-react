@@ -1,11 +1,12 @@
 import styled from 'styled-components';
-import { postSignIn } from '../../api/admin';
+import { getCurrentUser, postSignIn } from '../../api/admin';
 import { useInputs } from '../../hook/useInputs';
 import AdminForm from '../admin/AdminForm';
 import { Button } from '../common/button';
 import { Input } from '../common/input';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useUserIdDispatch } from '../../data/auth';
 
 function SignIn() {
   const [inputs, handleInputs] = useInputs({
@@ -16,16 +17,18 @@ function SignIn() {
   const active = email !== '' && password !== '';
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const dispatch = useUserIdDispatch(); // 이름을 dispatch로 지었을뿐.. setUserId함수
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!active) return; // active가 false라면 submit하지 않고 리턴
+    await postSignIn(inputs);
 
-    postSignIn(inputs).then((res) => {
-      // 로그인성공시 API에서 받은 token을 localStorage에 저장해 놓기
-      window.localStorage.setItem('access-token', res.data.data.token);
-      // 로그인 성공시 메인페이지("/")로 이동
-      navigate('/');
-    });
+    const user = await getCurrentUser();
+    console.log(`유저아이디 : ${user.id}`);
+    dispatch(user.id);
+    // 로그인 성공시 메인페이지("/")로 이동
+    navigate('/');
   };
 
   useEffect(() => {

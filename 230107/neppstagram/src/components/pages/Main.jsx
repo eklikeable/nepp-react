@@ -18,7 +18,7 @@ function Main() {
   return (
     <>
       <UpperContainer>
-        ✨ 로그인 성공 ✨
+        <strong>✨ Neppstagram ✨</strong>
         <BtnWrapper>
           <Button
             bgColor='black'
@@ -35,8 +35,10 @@ function Main() {
         <OutletWrapper>
           <Outlet />
         </OutletWrapper>
-        <NavBar />
       </Container>
+      <NavBox>
+        <NavBar />
+      </NavBox>
     </>
   );
 }
@@ -44,23 +46,32 @@ function Main() {
 const UpperContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 20px;
-  height: 15%;
+  height: 50px;
+  line-height: 50px;
+  background-color: lemonchiffon;
 `;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 85%;
+  height: 87vh;
+  position: relative;
 `;
 
 const BtnWrapper = styled.div`
-  margin-top: 20px;
-  width: 100px;
+  width: 90px;
 `;
 
 const OutletWrapper = styled.div`
   flex: 1;
   border-top: 1px solid #eee;
+  overflow: auto;
 `;
 
+const NavBox = styled.div`
+  position: absolute;
+  bottom: 0;
+  z-index: 1000;
+`;
 export default Main;

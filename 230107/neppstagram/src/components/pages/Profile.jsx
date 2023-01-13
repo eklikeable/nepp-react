@@ -19,6 +19,7 @@ function Profile() {
   };
 };
 */
+  const { name, profile_url } = user;
 
   const handleChange = (e) => {
     const form = new FormData();
@@ -29,10 +30,8 @@ function Profile() {
   };
 
   useEffect(() => {
-    getCurrentUser().then((res) => setUser(res.data.data));
+    getCurrentUser().then((data) => setUser(data));
   }, []);
-
-  const { name, profile_url } = user;
 
   return (
     <Container>
@@ -63,6 +62,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 20px;
 `;
 
 const UserName = styled.h2``;
@@ -76,7 +76,7 @@ const ProfileCircle = styled.label`
   width: 200px;
   height: 200px;
 
-  margin-top: 30px;
+  margin-top: 20px;
 
   border: 3px solid #eee;
   border-radius: 50%;
