@@ -5,7 +5,7 @@ export const todosState = atom({
   default: [
     {
       id: 1,
-      text: '투두리스만들기',
+      text: '투두리스트만들기',
       done: true,
     },
     { id: 2, text: '리코일 배우기', done: true },
