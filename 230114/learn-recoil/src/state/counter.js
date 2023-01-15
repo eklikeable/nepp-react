@@ -1,4 +1,4 @@
-import { createAction, createReducer } from '@reduxjs/toolkit';
+import { createAction, createReducer, createSlice } from '@reduxjs/toolkit';
 
 export const INCREASE = 'counter/increase';
 export const DECREASE = 'counter/decrease';
@@ -29,3 +29,20 @@ export const counterReducer02 = createReducer({ value: 0 }, (builder) => {
       state.value -= action.payload;
     });
 });
+
+// ✨ redux-toolkit의 createSlice를 쓰면 action과 reducer를 한번에 만들 수 있다
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: { value: 0 },
+  reducers: {
+    incre(state, action) {
+      state.value += action.payload.amount;
+    },
+    decre(state, action) {
+      state.value -= action.payload.amount;
+    },
+  },
+});
+
+export const { incre, decre } = counterSlice.actions;
+export const counterSliceReducer = counterSlice.reducer;

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSetRecoilState } from 'recoil';
 import { todosState } from '../state/todos';
-import { createTodo, createTodoAction } from '../state/todos.redux';
+import { create, createTodo, createTodoAction } from '../state/todos.redux';
 
 function TodoInput() {
   // const setTodos = useSetRecoilState(todosState);
@@ -18,7 +18,8 @@ function TodoInput() {
     // ]);
 
     // dispatch(createTodo(nextId.current, text));
-    dispatch(createTodoAction({ id: nextId.current, text }));
+    // dispatch(createTodoAction({ id: nextId.current, text }));
+    dispatch(create({ id: nextId.current, text }));
     nextId.current++;
   };
 

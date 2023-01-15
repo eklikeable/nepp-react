@@ -1,4 +1,9 @@
-import { createAction, createReducer, createSelector } from '@reduxjs/toolkit';
+import {
+  createAction,
+  createReducer,
+  createSelector,
+  createSlice,
+} from '@reduxjs/toolkit';
 
 // action의 type을 정의
 const CREATE_TODO = 'todos/create';
@@ -49,7 +54,8 @@ const initialState = [
   { id: 1, text: 'redux 배우기', done: false },
   { id: 2, text: 'todoList 만들기', done: false },
 ];
-/*  
+
+/*
 export function todosReducer(state = initialState, action) {
   switch (action.type) {
     case CREATE_TODO:
@@ -91,3 +97,32 @@ export const todosReducer02 = createReducer(initialState, (builder) => {
       );
     });
 });
+
+// ✨ redux-toolkit의 createSlice를 쓰면 action과 reducer를 한번에 만들 수 있다
+const todoSlice = createSlice({
+  name: 'todos',
+  initialState,
+  reducers: {
+    create(state, action) {
+      const { id, text } = action.payload;
+      state.push({ id: id, text: text, done: false });
+    },
+    remove(state, action) {
+      return state.filter((todo) => action.payload !== todo.id);
+    },
+    toggle(state, action) {
+      // [1] return을 하는 방법
+      // return state.map((todo) =>
+      //   todo.id === action.payload ? { ...todo, done: !todo.done } : todo
+      // );
+      // [2] return을 하지 않고 원본객체를 바꾸는 방법
+      // 객체는 참조 복사 이기 때문에 mutable하게 변경해서 return값 없음
+      const { id } = action.payload;
+      const todo = state.find((todo) => todo.id === id);
+      todo.done = !todo.done;
+    },
+  },
+});
+
+export const { create, remove, toggle } = todoSlice.actions;
+export const todoSliceReducer = todoSlice.reducer;

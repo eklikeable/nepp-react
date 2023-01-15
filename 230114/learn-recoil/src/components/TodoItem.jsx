@@ -2,8 +2,10 @@ import { useSetRecoilState } from 'recoil';
 import { todosState } from '../state/todos';
 import { useDispatch } from 'react-redux';
 import {
+  remove,
   removeTodo,
   removeTodoAction,
+  toggle,
   toggleTodo,
   toggleTodoAction,
 } from '../state/todos.redux';
@@ -17,7 +19,8 @@ function TodoItem({ todo }) {
   const handleDelete = (e) => {
     e.stopPropagation();
     // setTodos((todos) => todos.filter((todo) => todo.id !== id));
-    dispatch(removeTodoAction(id));
+    // dispatch(removeTodoAction(id));
+    dispatch(remove(id));
   };
 
   const handleToggle = () => {
@@ -26,7 +29,8 @@ function TodoItem({ todo }) {
     //     todo.id === id ? { ...todo, done: !todo.done } : todo
     //   )
     // );
-    dispatch(toggleTodoAction(id));
+    // dispatch(toggleTodoAction(id));
+    dispatch(toggle({ id }));
   };
 
   return (
