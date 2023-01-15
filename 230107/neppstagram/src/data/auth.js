@@ -4,7 +4,7 @@ const UserIdContext = createContext(null);
 const UserIdDispatchContext = createContext(null);
 
 export const ContextProvider = ({ children }) => {
-  const [userId, setUserId] = useState(5);
+  const [userId, setUserId] = useState(6);
   return (
     <UserIdContext.Provider value={userId}>
       <UserIdDispatchContext.Provider value={setUserId}>

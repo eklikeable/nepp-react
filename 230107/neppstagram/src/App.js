@@ -8,6 +8,7 @@ import Home from './components/pages/Home';
 import Search from './components/pages/Search';
 import Edit from './components/pages/Edit';
 import Profile from './components/pages/Profile';
+import User from './components/pages/User';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route path=':id' element={<Edit />} />
             </Route>
             <Route path='profile' element={<Profile />} />
+            <Route path='user/:id' element={<User />} />
           </Route>
           <Route path='signin' element={<SignIn />} />
           <Route path='signup' element={<SignUp />} />

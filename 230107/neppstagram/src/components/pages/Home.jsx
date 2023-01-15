@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
-import { getCurrentUser, getPosts } from '../../api/admin';
-import { useUserDispatch } from '../../data/auth';
+import { getPosts } from '../../api/admin';
 import Post from '../home/Post';
 
 function Home() {
@@ -15,12 +15,22 @@ function Home() {
   //   getCurrentUser().then((user) => dispatch(user.id));
   // }, [dispatch]);
 
+  // useQuery
+  const { data, isLoading } = useQuery('posts', () => getPosts(page), {
+    onSuccess: (data) => {
+      // console.log('데이터를 로딩을 성공하였습니다', data);
+    },
+    onError: (err) => alert(err.response.message),
+  });
+
   useEffect(() => {
     getPosts(page).then((res) => {
       if (res.length < 10) setIsLast(true);
       setPostList((postList) => [...postList, ...res]);
     });
   }, [page]);
+
+  if (isLoading) return <div>Loding....</div>;
 
   /*
   이렇게 따로 getViewMore 함수를 만들지 않고, useEffect의 디펜던시로 page를 추가함
@@ -32,7 +42,7 @@ function Home() {
 
   return (
     <Container>
-      {postList.map((post) => (
+      {data.map((post) => (
         <Post key={post.id} post={post} />
       ))}
       {!isLast && ( // 마지막목록인경우 view more 버튼 숨기기

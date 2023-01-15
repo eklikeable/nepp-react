@@ -9,14 +9,10 @@ if (token) {
   };
 }
 export const postUser = async (form) => {
-  try {
-    const result = await axios.post('users', {
-      ...form,
-    });
-    return result;
-  } catch (err) {
-    console.log(err);
-  }
+  const result = await axios.post('users', {
+    ...form,
+  });
+  return result;
 };
 
 export const postSignIn = async (form) => {
@@ -27,7 +23,6 @@ export const postSignIn = async (form) => {
   const token = result.data.data.token;
 
   window.localStorage.setItem('access-token', token);
-
   axios.defaults.headers['Authorization'] = `Bearer ${token}`;
 
   return true;
@@ -42,8 +37,9 @@ export const patchProfile = (form) => {
   return axios.patch('users/profile', form);
 };
 
-export const postPost = (form) => {
-  return axios.post('posts', form);
+export const postPost = async (form) => {
+  const { data } = await axios.post('posts', form);
+  return data.data;
 };
 
 export const getPosts = async (page = 1) => {
@@ -88,4 +84,26 @@ export const convertUrl = async (url) => {
   const metadata = { type: `image/${ext}` };
 
   return new File([data], filename, metadata);
+};
+
+// Search : 유저 정보 검색
+export const searchUser = async (name) => {
+  const { data } = await axios.get('/users/search', {
+    params: {
+      name,
+    },
+  });
+  return data;
+};
+
+export const getUserById = async (id) => {
+  const { data } = await axios.get('/users/' + id);
+  return data.data;
+};
+
+// 유저 게시물 조회 post - get
+// /posts/author/{authorId}
+export const getPostsByUserId = async (id) => {
+  const { data } = await axios.get('/posts/author/' + id);
+  return data.data;
 };

@@ -20,15 +20,20 @@ function SignIn() {
   const dispatch = useUserIdDispatch(); // 이름을 dispatch로 지었을뿐.. setUserId함수
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!active) return; // active가 false라면 submit하지 않고 리턴
-    await postSignIn(inputs);
+    try {
+      e.preventDefault();
 
-    const user = await getCurrentUser();
-    console.log(`유저아이디 : ${user.id}`);
-    dispatch(user.id);
-    // 로그인 성공시 메인페이지("/")로 이동
-    navigate('/');
+      if (!active) return; // active가 false라면 submit하지 않고 리턴
+      await postSignIn(inputs);
+
+      const user = await getCurrentUser();
+      console.log(`유저아이디 : ${user.id}`);
+      dispatch(user.id);
+      // 로그인 성공시 메인페이지("/")로 이동
+      navigate('/');
+    } catch (err) {
+      alert(err.response.data.message);
+    }
   };
 
   useEffect(() => {

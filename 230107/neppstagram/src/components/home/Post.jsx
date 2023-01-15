@@ -14,7 +14,7 @@ function Post({ post }) {
 
   return (
     <Container>
-      <UserInfo author={author} />
+      <UserInfo user={author} />
       <PostImageBox img_list={img_list} />
       <div style={{ textAlign: 'right', fontSize: '0.5rem', marginTop: 10 }}>
         {author.id === userId && <Link to={`edit/${id}`}>수정하기</Link>}

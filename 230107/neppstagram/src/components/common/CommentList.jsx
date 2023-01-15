@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
 import styled from 'styled-components';
+import { client } from '../..';
 import { deleteComment, getComments, postComments } from '../../api/admin';
 import { useUserId } from '../../data/auth';
 
@@ -10,9 +12,11 @@ function CommentList({ postId }) {
 
   const currentUserId = useUserId();
 
+  /* ✨아래 코드는 react-query로 대체됨
+
   const getData = useCallback(() => {
     getComments(postId, commentPage).then((data) =>
-      setCommentsList((commentList) => [...commentList, ...data])
+    setCommentsList((commentList) => [...commentList, ...data])
     );
   }, [postId, commentPage]);
 
@@ -26,10 +30,44 @@ function CommentList({ postId }) {
     setInput('');
   };
 
+  useEffect(() => {
+  getData();
+}, [getData]);
+  */
+
+  // 댓글 등록하는 함수 만들기
+  const commentsMutation = useMutation('comments', postComments, {
+    onSuccess: (data) => client.fetchQuery('comments'),
+  });
+  const handleSubmit = () => {
+    commentsMutation.mutate({ postId, content: input });
+  };
+
+  const { data, isLoading, error } = useQuery(
+    'comments',
+    () => getComments(postId, commentPage),
+    {
+      // onSuccess: (data) => console.log(data),
+    }
+  );
+
+  // 댓글 삭제하는 함수 만들기
+  const commentDeleteMutation = useMutation(deleteComment, {
+    onSuccess: (data) => {
+      console.log('댓글삭제', data);
+      client.invalidateQueries('comments');
+    },
+  });
+
   const handleDelete = async (commentId) => {
     if (!window.confirm('댓글을 삭제하시겠습니까?')) return;
+
+    commentDeleteMutation.mutate(commentId);
+
+    /*
     await deleteComment(commentId);
     setCommentsList(commentsList.filter((comment) => comment.id !== commentId));
+    */
   };
 
   // 댓글 더보기
@@ -37,9 +75,11 @@ function CommentList({ postId }) {
     setCommentPage(commentPage + 1);
   };
 
-  useEffect(() => {
-    getData();
-  }, [getData]);
+  /*
+
+*/
+
+  if (isLoading) return <div>Loading....</div>;
 
   return (
     <Container>
@@ -49,10 +89,10 @@ function CommentList({ postId }) {
           onChange={(e) => setInput(e.target.value)}
           value={input}
         />
-        <BtnSubmit onClick={handleCommentSubmit}>등록</BtnSubmit>
+        <BtnSubmit onClick={handleSubmit}>등록</BtnSubmit>
       </InputBox>
       {commentsList &&
-        commentsList.map((comment) => (
+        data.map((comment) => (
           <CommentItem key={comment.id}>
             {comment.content}
             {currentUserId === comment.author.id && (

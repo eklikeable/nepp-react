@@ -1,12 +1,15 @@
+import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-function UserInfo({ author }) {
-  const { name, profile_url } = author;
+function UserInfo({ user }) {
+  const { id, name, profile_url } = user;
   return (
-    <Container>
-      <ImgCircle profile_url={profile_url} />
-      <UserName>{name}</UserName>
-    </Container>
+    <Link to={`/user/${id}`}>
+      <Container>
+        <ImgCircle profile_url={profile_url} />
+        <UserName>{name}</UserName>
+      </Container>
+    </Link>
   );
 }
 

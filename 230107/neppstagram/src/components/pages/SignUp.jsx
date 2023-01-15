@@ -4,7 +4,8 @@ import { useInputs } from '../../hook/useInputs';
 import AdminForm from '../admin/AdminForm';
 import { Button } from '../common/button';
 import { Input } from '../common/input';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useMutation } from 'react-query';
 
 function SignUp() {
   const [inputs, handleInputs] = useInputs({
@@ -18,11 +19,35 @@ function SignUp() {
   // active 값이 true일 때만(3가지 폼 모두 작성시) 회원가입 버튼 색 변경
   const active = name !== '' && email !== '' && password !== '';
 
+  const navigate = useNavigate();
+
+  // react-query 써보기
+  const signUpMutate = useMutation(postUser, {
+    onMutate: (form) => {
+      console.log(form); // mutate가 되는 순간에도 콜백함수를 넣어줄수있다
+    },
+    onSuccess: () => {
+      alert('회원가입에 성공했습니다');
+      navigate('/signin');
+    },
+    onError: (err) => alert(err.response.data.message),
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!active) return; // active가 false라면 submit하지 않고 리턴
 
-    postUser(inputs).then((res) => console.log(res));
+    /* ✨아래 코드는 react-query로 대체됨
+    postUser(inputs)
+    .then(() => {
+      alert('회원가입에 성공했습니다');
+      navigate('/signin');
+    })
+    .catch((err) => {
+      alert(err.message);
+    });
+    */
+    signUpMutate.mutate();
   };
 
   return (
